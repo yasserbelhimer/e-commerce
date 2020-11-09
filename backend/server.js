@@ -3,7 +3,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const categoryRoute = require("./routes/category");
 const productRoute = require("./routes/product");
-const adminRoute = require("./routes/admin");
 
 require("dotenv").config();
 
@@ -14,7 +13,6 @@ const uri = process.env.ATLAS_URI;
 
 app.use(cors());
 app.use(express.json());
-app.use("/admin", adminRoute);
 app.use("/category", categoryRoute);
 app.use("/product", productRoute);
 
