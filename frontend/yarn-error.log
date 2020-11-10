@@ -1,0 +1,93 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @material-ui
+
+PATH: 
+  C:\oraclexe\app\oracle\product\11.2.0\server\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\wamp\bin\php\php7.3.11;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\CodeBlocks\MinGW\bin;C:\GnuWin32\bin;C:\wamp64\bin\apache\apache2.4.41\bin;C:\Program Files (x86)\Bitvise SSH Client;C:\wamp64\bin\php\php7.4.0;C:\Program Files\Java\jdk-11.0.6\bin;C:\javaLib\antlr-4.8-complete.jar;C:\javaLib\;C:\Program Files\PostgreSQL\12\bin;C:\Program Files\PostgreSQL\12\lib;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\dotnet\;C:\Program Files\nodejs\;C:\Users\yasser\AppData\Local\Programs\Python\Python38-32\Scripts\;C:\Users\yasser\AppData\Local\Programs\Python\Python38-32\;C:\Users\yasser\AppData\Local\Microsoft\WindowsApps;C:\Program File;C:\Program Files\PuTTY\;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Git\cmd;C:\Program Files\JetBrains\IntelliJ IDEA 2019.1.2\bin;C:\wamp64\bin\php\php7.4.9;C:\Program Files\JetBrains\PhpStorm 2019.2.3\bin;C:\Users\yasser\AppData\Local\GitHubDesktop\bin;C:\Users\yasser\AppData\Local\Unitex-GramLab\App;C:\dev\flutter\bin;C:\Users\yasser\AppData\Local\Android\Sdk\platform-tools;C:\gradle-6.2.1\bin;C:\wamp64\bin\mysql\mysql8.0.21\bin;C:\Users\yasser\AppData\Local\Yarn\bin;C:\Program Files\heroku\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Users\yasser\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\yasser\.dotnet\tools;C:\Users\yasser\AppData\Roaming\npm;C:\javafx-sdk-11.0.2\bin;C:\javafx-sdk-11.0.2\javafx-jmods-11.0.2;C:\Users\yasser\AppData\Local\watchman;C:\Users\yasser\AppData\Roaming\Composer\vendor\bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.18.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@material-ui: Request "https://registry.yarnpkg.com/@material-ui" returned a 405
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66105:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140748:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141720:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141642:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1221:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+
+npm manifest: 
+  {
+    "name": "e-commerce",
+    "version": "1.0.0",
+    "description": "E commerce website",
+    "private": true,
+    "main": "dist/index.js",
+    "dependencies": {
+      "@material-ui/core": "4.10.0",
+      "@material-ui/icons": "4.9.1",
+      "chartist": "0.10.1",
+      "classnames": "2.2.6",
+      "history": "4.10.1",
+      "perfect-scrollbar": "1.5.0",
+      "prop-types": "15.7.2",
+      "react": "16.13.1",
+      "react-chartist": "0.14.3",
+      "react-dom": "16.13.1",
+      "react-google-maps": "9.4.5",
+      "react-router-dom": "5.2.0",
+      "react-scripts": "3.4.1",
+      "react-swipeable-views": "0.13.9"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test --env=jsdom",
+      "eject": "react-scripts eject",
+      "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
+      "lint:check": "eslint . --ext=js,jsx;  exit 0",
+      "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0",
+      "build-package-css": "cp src/assets/css/material-dashboard-react.css dist/material-dashboard-react.css",
+      "build-package": "npm run build-package-css && babel src --out-dir dist"
+    },
+    "keywords": [],
+    "license": "MIT",
+    "homepage": "/",
+    "optionalDependencies": {
+      "@types/googlemaps": "3.39.6",
+      "@types/markerclustererplus": "2.1.33",
+      "ajv": "6.12.2",
+      "typescript": "3.9.3"
+    },
+    "devDependencies": {
+      "eslint-config-prettier": "6.11.0",
+      "eslint-plugin-prettier": "3.1.3",
+      "gulp": "4.0.2",
+      "gulp-append-prepend": "1.0.8",
+      "prettier": "2.0.5"
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": []
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
