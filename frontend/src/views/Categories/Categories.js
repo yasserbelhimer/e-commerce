@@ -9,7 +9,10 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
-import { Edit, Close } from "@material-ui/icons";
+import Button from "components/CustomButtons/Button.js";
+import { NavLink, Route, useRouteMatch } from "react-router-dom";
+import AddCategory from "./AddCategory";
+import { Edit, Close, Router } from "@material-ui/icons";
 import {
 	Table,
 	TableHead,
@@ -18,7 +21,11 @@ import {
 	TableBody,
 	Tooltip,
 	IconButton,
+	Grid,
+	Typography,
+	Switch,
 } from "@material-ui/core";
+
 const styles = {
 	cardCategoryWhite: {
 		"&,& a,& a:hover,& a:focus": {
@@ -55,22 +62,41 @@ const useStyles = makeStyles(styles);
 export default function Categories() {
 	const classes = useStyles();
 	const classesTasks = useStylesTasks();
+	let match = useRouteMatch();
 
 	return (
 		<GridContainer>
 			<GridItem xs={12} sm={12} md={12}>
 				<Card>
 					<CardHeader color="primary">
-						<h4 className={classes.cardTitleWhite}>Categories List</h4>
-
+						<h4 className={classes.cardTitleWhite}>
+							Categories List
+						</h4>
 					</CardHeader>
 					<CardBody>
+						<Grid
+							justify="space-between" // Add it here :)
+							container
+							spacing={24}
+						>
+							<Grid item></Grid>
+
+							<Grid item>
+								<NavLink
+									activeClassName="active"
+									to={`${match.url}/add`}
+								>
+									{" "}
+									<Button type="button" color="primary">
+										Add new Category
+									</Button>
+								</NavLink>
+							</Grid>
+						</Grid>
 						<Table>
 							<TableHead>
 								<TableRow>
-									<TableCell>
-										Category ID
-									</TableCell>
+									<TableCell>Category ID</TableCell>
 									<TableCell>Category Name</TableCell>
 									<TableCell align="right"></TableCell>
 								</TableRow>
@@ -341,6 +367,32 @@ export default function Categories() {
 					</CardBody>
 				</Card>
 			</GridItem>
+			<Router>
+			<Switch>
+				<Route path={`${match.path}/add`}>
+					<AddCategory />
+				</Route>
+			</Switch>
+			</Router>
 		</GridContainer>
 	);
 }
+
+// export default () => {
+// 	const match = useRouteMatch();
+// 	return (
+// 		<div>
+// 			<h1>{match.path}</h1>
+// 		<Switch>
+// 			<Route path={`${match.path}`} component={Categories} />
+// 			<Route path={`${match.url}/add`} component={AddCategory} />
+// 		</Switch>
+// 		</div>
+// 	);
+// };
+
+// function HeaderView() {
+// 	const location = useLocation();
+// 	console.log(location.pathname);
+// 	return <span>Path : {location.pathname}</span>
+//   }
