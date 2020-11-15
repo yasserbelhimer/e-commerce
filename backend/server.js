@@ -13,7 +13,7 @@ const uri = process.env.ATLAS_URI;
 
 app.use(cors());
 app.use(express.json());
-app.use("/category", categoryRoute);
+app.use("/categories", categoryRoute);
 app.use("/product", productRoute);
 
 const run = async () => {

@@ -12,7 +12,9 @@ import Card from "components/Card/Card.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Button from "components/CustomButtons/Button.js";
+import {apiUrl} from '../../constants';
 
+import axios from 'axios';
 const styles = {
 	cardCategoryWhite: {
 		"&,& a,& a:hover,& a:focus": {
@@ -52,7 +54,12 @@ export default function AddCategory() {
 	const [categoryName, setCategoryName] = useState('');
 
 	const printName = ()=>{
-		alert(categoryName);
+		axios.post(apiUrl+'categories/add',{name:categoryName})
+        .then(res => {
+			alert(res);
+        }).catch( err =>{
+			alert(err)
+		});
 	}
 	return (
 		<GridContainer>
