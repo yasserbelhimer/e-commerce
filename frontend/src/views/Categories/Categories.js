@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 // @material-ui/core components
 import stylesTasks from "assets/jss/material-dashboard-react/components/tasksStyle.js";
+import CustomInput from "components/CustomInput/CustomInput.js";
 
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -10,11 +11,15 @@ import CardBody from "components/Card/CardBody.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import Button from "components/CustomButtons/Button.js";
-import { NavLink, Route, useRouteMatch } from "react-router-dom";
-import { Edit, Close, Router } from "@material-ui/icons";
+import { Edit, Close } from "@material-ui/icons";
 import { apiUrl } from "../../constants";
-
 import axios from "axios";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 import {
 	Table,
 	TableHead,
@@ -24,8 +29,6 @@ import {
 	Tooltip,
 	IconButton,
 	Grid,
-	Typography,
-	Switch,
 } from "@material-ui/core";
 
 const styles = {
@@ -63,10 +66,70 @@ const useStyles = makeStyles(styles);
 
 export default function Categories() {
 	const [categories, setCategories] = useState([]);
+	const [openEdit, setOpenEdit] = React.useState(false);
+	const [openNew, setOpenNew] = React.useState(false);
+	const [category, setCategory] = React.useState({ _id: "", name: "" });
+	const [NewCategory, setNewCategory] = useState("");
+	const [reload, setReload] = useState(false);
+
+	const addNewCategory = () => {
+		axios
+			.post(apiUrl + "categories/add", { name: NewCategory })
+			.then((res) => {
+				setOpenNew(false);
+				reload?setReload(false):setReload(true);
+			})
+			.catch((err) => {
+				setOpenNew(false);
+				reload?setReload(false):setReload(true);
+			});
+	};
+	const editCategory = () => {
+		axios
+			.post(apiUrl + "categories/update/" + category._id, {
+				name: category.name,
+			})
+			.then((res) => {
+				setOpenEdit(false);
+				reload?setReload(false):setReload(true);
+			})
+			.catch((err) => {
+				setOpenEdit(false);
+				reload?setReload(false):setReload(true);
+			});
+	};
+
+	const deleteCategory = (id) => {
+		axios
+			.delete(apiUrl + "categories/" + id)
+			.then((res) => {
+				reload?setReload(false):setReload(true);
+			})
+			.catch((err) => {
+				reload?setReload(false):setReload(true);
+			});
+	};
+	const handleClickOpenEdit = (category) => {
+		setCategory(category);
+		setOpenEdit(true);
+	};
+
+	const handleCloseEdit = () => {
+		setOpenEdit(false);
+	};
+	const handleClickOpenNew = () => {
+		setOpenNew(true);
+	};
+
+	const handleCloseNew = () => {
+		setOpenNew(false);
+	};
+
 	const classes = useStyles();
+
 	const classesTasks = useStylesTasks();
-	let match = useRouteMatch();
 	useEffect(() => {
+		console.log("I am in");
 		axios
 			.get(apiUrl + "categories/all")
 			.then((res) => {
@@ -75,7 +138,7 @@ export default function Categories() {
 			.catch((err) => {
 				alert(err);
 			});
-	},[]);
+	}, [reload]);
 	return (
 		<GridContainer>
 			<GridItem xs={12} sm={12} md={12}>
@@ -94,15 +157,20 @@ export default function Categories() {
 							<Grid item></Grid>
 
 							<Grid item>
-								<NavLink
+								{/* <NavLink
 									activeClassName="active"
-									to={`${match.url}/add`}
+									// to={`${match.url}/add`}
 								>
 									{" "}
-									<Button type="button" color="primary">
-										Add new Category
-									</Button>
-								</NavLink>
+									
+								</NavLink> */}
+								<Button
+									type="button"
+									color="primary"
+									onClick={handleClickOpenNew}
+								>
+									Add new Category
+								</Button>
 							</Grid>
 						</Grid>
 						<Table>
@@ -114,10 +182,10 @@ export default function Categories() {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{categories.map((category,index) => (
+								{categories.map((category, index) => (
 									<TableRow>
-										<TableCell>#{index+1}</TableCell>
-								<TableCell>{category.name}</TableCell>
+										<TableCell>#{index + 1}</TableCell>
+										<TableCell>{category.name}</TableCell>
 										<TableCell align="right">
 											<Tooltip
 												id="tooltip-top"
@@ -129,6 +197,11 @@ export default function Categories() {
 												}}
 											>
 												<IconButton
+													onClick={() => {
+														handleClickOpenEdit(
+															category
+														);
+													}}
 													aria-label="Edit"
 													className={
 														classesTasks.tableActionButton
@@ -153,6 +226,11 @@ export default function Categories() {
 												}}
 											>
 												<IconButton
+													onClick={() => {
+														deleteCategory(
+															category._id
+														);
+													}}
 													aria-label="Close"
 													className={
 														classesTasks.tableActionButton
@@ -175,6 +253,72 @@ export default function Categories() {
 					</CardBody>
 				</Card>
 			</GridItem>
+
+			<Dialog
+				maxWidth="sm"
+				fullWidth={true}
+				open={openEdit}
+				onClose={handleCloseEdit}
+				aria-labelledby="form-dialog-title"
+			>
+				<DialogTitle id="form-dialog-title">Edit Category</DialogTitle>
+				<DialogContent>
+					<DialogContentText></DialogContentText>
+					<CustomInput
+						labelText="Category Name"
+						id="categoryName"
+						formControlProps={{
+							fullWidth: true,
+						}}
+						inputProps={{
+							onChange: (e) =>
+								setCategory({
+									_id: category._id,
+									name: e.target.value,
+								}),
+							value: category.name,
+						}}
+					/>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleCloseEdit} color="primary">
+						Cancel
+					</Button>
+					<Button onClick={editCategory} color="primary">
+						Edit
+					</Button>
+				</DialogActions>
+			</Dialog>
+			<Dialog
+				maxWidth="sm"
+				fullWidth={true}
+				open={openNew}
+				onClose={handleCloseNew}
+				aria-labelledby="form-dialog-title"
+			>
+				<DialogTitle id="form-dialog-title">New Category</DialogTitle>
+				<DialogContent>
+					<DialogContentText></DialogContentText>
+					<CustomInput
+						labelText="Category Name"
+						id="categoryName"
+						formControlProps={{
+							fullWidth: true,
+						}}
+						inputProps={{
+							onChange: (e) => setNewCategory(e.target.value),
+						}}
+					/>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleCloseNew} color="primary">
+						Cancel
+					</Button>
+					<Button onClick={addNewCategory} color="primary">
+						Add
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</GridContainer>
 	);
 }

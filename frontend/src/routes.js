@@ -11,7 +11,6 @@ import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import CategoriesPage from "views/Categories/Categories";
-import AddCategory from "views/Categories/AddCategory";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
@@ -38,15 +37,6 @@ const dashboardRoutes = [
     rtlName: "التصنيفات",
     icon: Category,
     component: CategoriesPage,
-    layout: "/admin"
-  },
-  {
-    path: "/categories/add",
-    name: "Add new category",
-    rtlName: "إضافة تصنيف",
-    icon: Category,
-    component: AddCategory,
-    invisible:true,
     layout: "/admin"
   },
   {
@@ -116,3 +106,13 @@ const dashboardRoutes = [
 ];
 
 export default dashboardRoutes;
+
+// {
+//   path: "/categories/add",
+//   name: "Add new category",
+//   rtlName: "إضافة تصنيف",
+//   icon: Category,
+//   component: AddCategory,
+//   invisible:true,
+//   layout: "/admin"
+// },
