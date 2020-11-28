@@ -2,21 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const categoryRoute = require("./routes/category");
-const productRoute = require("./routes/product");
-const db = require("./models");
-const Role = db.role;
+const categoryRoute = require("./routes/category.routes");
+const productRoute = require("./routes/product.routes");
+const adminRoutes = require('./routes/admin.routes')
 
 require("dotenv").config();
-var corsOptions = {
-  origin: "http://localhost:5000",
-};
 const app = express();
 
 const port = process.env.PORT || 5000;
 const uri = process.env.ATLAS_URI;
 
-app.use(cors(corsOptions));
+app.use(cors());
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
@@ -31,10 +27,10 @@ app.get("/", (req, res) => {
 app.use(express.json());
 app.use("/categories", categoryRoute);
 app.use("/product", productRoute);
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
+app.use("/admin", adminRoutes);
+
 const run = async () => {
-  await db.mongoose
+  await mongoose
     .connect(uri, {
       useNewUrlParser: true,
       useCreateIndex: true,
@@ -54,38 +50,3 @@ const run = async () => {
 };
 
 run();
-
-function initial() {
-  Role.estimatedDocumentCount((err, count) => {
-    if (!err && count === 0) {
-      new Role({
-        name: "user",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'user' to roles collection");
-      });
-
-      new Role({
-        name: "moderator",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'moderator' to roles collection");
-      });
-
-      new Role({
-        name: "admin",
-      }).save((err) => {
-        if (err) {
-          console.log("error", err);
-        }
-        console.log("added 'admin' to roles collection");
-      });
-    }
-  });
-}
