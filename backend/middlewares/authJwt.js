@@ -4,7 +4,7 @@ const Admin = require("../models/admin.model");
 
 const withAuth = async (req, res, next) => {
     try{
-        const token = req.header('access_token')
+        const token = req.header("x-access-token")
         if (!token) {
             return res
             .status(401)
