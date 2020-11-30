@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/types";
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, LOGIN_REQUEST } from "../actions/types";
 
 const admin = JSON.parse(localStorage.getItem("admin"));
 
@@ -10,6 +10,12 @@ export default function (state = initialState, action) {
 	const { type, payload } = action;
 
 	switch (type) {
+		case LOGIN_REQUEST:
+			return {
+				...state,
+				isLoggedIn: false,
+				admin: null,
+			};
 		case LOGIN_SUCCESS:
 			return {
 				...state,

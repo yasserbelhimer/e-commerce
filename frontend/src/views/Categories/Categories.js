@@ -129,7 +129,6 @@ export default function Categories() {
 
 	const classesTasks = useStylesTasks();
 	useEffect(() => {
-		console.log("I am in");
 		axios
 			.get(apiUrl + "categories/all")
 			.then((res) => {

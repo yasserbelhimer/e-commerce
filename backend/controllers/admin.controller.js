@@ -28,38 +28,34 @@ exports.login = (req, res) => {
 	Admin.findOne({ email })
 		.then((admin) => {
 			if (admin) {
-				try {
-					const passwordIsValid = bcrypt.compareSync(
-						password,
-						admin.password
-					);
-					if (!passwordIsValid) {
-						return res.status(401).json({
-							accessToken: null,
-							error: "Invalid Password!",
-						});
-					}
+				const passwordIsValid = bcrypt.compareSync(
+					password,
+					admin.password
+				);
+				if (!passwordIsValid) {
+					return res.status(200).json({
+						success: false,
+						error: "Invalid Password!",
+					});
+				}
 
-					const token = jwt.sign(
-						{ id: admin.id },
-						process.env.secret,
-						{
-							expiresIn: 86400, // 24 hours
-						}
-					);
-					res.status(200).json({
+				const token = jwt.sign({ id: admin.id }, process.env.secret, {
+					expiresIn: 86400, // 24 hours
+				});
+				res.status(200).json({
+					success: true,
+					message: {
 						id: admin._id,
 						username: admin.username,
 						email: admin.email,
 						accessToken: token,
-					});
-				} catch (err) {
-					res.status(500).json({
-						error: "Internal error please try again ",
-					});
-				}
+					},
+				});
 			} else {
-				res.status(404).json({ message: "This Admin does not exist!" });
+				res.status(200).json({
+					success: false,
+					error: "This Admin does not exist!",
+				});
 			}
 		})
 		.catch((err) => res.status(400).json("Error: " + err));

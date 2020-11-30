@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-
+import PropTypes from "prop-types";
 // import Form from "react-validation/build/form";
 // import Input from "react-validation/build/input";
 // import CheckButton from "react-validation/build/button";
@@ -13,8 +13,7 @@ export class Login extends Component {
 	constructor(props) {
 		super(props);
 		this.handleLogin = this.handleLogin.bind(this);
-		this.onChangeEmail = this.onChangeEmail.bind(this);
-		this.onChangePassword = this.onChangePassword.bind(this);
+		this.onChange = this.onChange.bind(this);
 
 		this.state = {
 			email: "",
@@ -22,37 +21,30 @@ export class Login extends Component {
 			loading: false,
 		};
 	}
-	onChangeEmail(e) {
+	onChange(e) {
 		this.setState({
-			email: e.target.value,
+			[e.target.name]: e.target.value,
 		});
 	}
 
-	onChangePassword(e) {
-		this.setState({
-			password: e.target.value,
-		});
-	}
-
-	handleLogin(e) {
+	async handleLogin(e) {
 		e.preventDefault();
-		console.log("i am in");
 		this.setState({
 			loading: true,
 		});
 
-		// const { dispatch, history } = this.props;
-
-		// dispatch(login(this.state.email, this.state.password))
-		// 	.then(() => {
-		// 		history.push("/dashboard");
-		// 		window.location.reload();
-		// 	})
-		// 	.catch(() => {
-		// 		this.setState({
-		// 			loading: false,
-		// 		});
-		// 	});
+		const { history } = this.props;
+		this.props
+			.login(this.state.email, this.state.password)
+			.then(() => {
+				history.push("/dashboard");
+				// window.location.reload();
+			})
+			.catch(() => {
+				this.setState({
+					loading: false,
+				});
+			});
 	}
 
 	render() {
@@ -84,16 +76,17 @@ export class Login extends Component {
 											className="h-auto"
 											name="email"
 											value={this.state.email}
-											onChange={this.onChangeEmail}
+											onChange={this.onChange}
 										/>
 									</Form.Group>
 									<Form.Group className="d-flex search-field">
 										<Form.Control
 											type="password"
+											name="password"
 											placeholder="Password"
 											size="lg"
 											value={this.state.password}
-											onChange={this.onChangePassword}
+											onChange={this.onChange}
 											className="h-auto"
 										/>
 									</Form.Group>
@@ -139,5 +132,16 @@ export class Login extends Component {
 		);
 	}
 }
+function mapStateToProps(state) {
+	const { isLoggedIn } = state.auth;
+	const { message } = state.message;
+	return {
+		isLoggedIn,
+		message,
+	};
+}
 
-export default Login;
+const mapDispatchToProps = {
+	login,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
