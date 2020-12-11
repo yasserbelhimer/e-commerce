@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
-import PropTypes from "prop-types";
-// import Form from "react-validation/build/form";
-// import Input from "react-validation/build/input";
-// import CheckButton from "react-validation/build/button";
-
 import { connect } from "react-redux";
 import { login } from "../../actions/auth";
 

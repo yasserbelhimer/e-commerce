@@ -12,6 +12,7 @@ const withAuth = async (req, res, next) => {
         } 
             
         const verified = jwt.verify(token, process.env.secret);
+        console.log(verified);
         if(!verified){
             return res
             .status(401)
