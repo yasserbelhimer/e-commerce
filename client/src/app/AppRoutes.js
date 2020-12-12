@@ -3,7 +3,7 @@ import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../app/shared/Spinner";
 import UsersList from "./users/UsersList";
-import CategoriesList from "./categories/CategoriesList";
+import Categories from "./categories/Categories";
 import {ProtectedRoute,ProtectedRouteLogin} from "./ProtectedRoute";
 const Dashboard = lazy(() => import("./dashboard/Dashboard"));
 
@@ -39,7 +39,7 @@ const AppRoutes = props => {
 					</ProtectedRoute>
 					
 					<ProtectedRoute path="/categories" auth={props.state.auth}>
-						<CategoriesList />
+						<Categories />
 					</ProtectedRoute>
 					
 					<Route exact path="/users" component={UsersList} />
