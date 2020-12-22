@@ -1,10 +1,11 @@
-import React, { Component, Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../app/shared/Spinner";
 import UsersList from "./users/UsersList";
 import Categories from "./categories/Categories";
-import {ProtectedRoute,ProtectedRouteLogin} from "./ProtectedRoute";
+import { ProtectedRoute, ProtectedRouteLogin } from "./ProtectedRoute";
+import Products from "./products/Products";
 const Dashboard = lazy(() => import("./dashboard/Dashboard"));
 
 const Buttons = lazy(() => import("./basic-ui/Buttons"));
@@ -29,63 +30,56 @@ const Lockscreen = lazy(() => import("./user-pages/Lockscreen"));
 
 const BlankPage = lazy(() => import("./general-pages/BlankPage"));
 
-const AppRoutes = props => {
-		return (
-			<Suspense fallback={<Spinner />}>
-				<Switch>
+const AppRoutes = (props) => {
+	return (
+		<Suspense fallback={<Spinner />}>
+			<Switch>
+				<ProtectedRoute path="/dashboard" auth={props.state.auth}>
+					<Dashboard />
+				</ProtectedRoute>
 
-					<ProtectedRoute path="/dashboard" auth={props.state.auth}>
-						<Dashboard />
-					</ProtectedRoute>
-					
-					<ProtectedRoute path="/categories" auth={props.state.auth}>
-						<Categories />
-					</ProtectedRoute>
-					
-					<Route exact path="/users" component={UsersList} />
+				<ProtectedRoute path="/categories" auth={props.state.auth}>
+					<Categories />
+				</ProtectedRoute>
+				<ProtectedRoute path="/products" auth={props.state.auth}>
+					<Products />
+				</ProtectedRoute>
 
-          			<ProtectedRouteLogin path="/login" auth={props.state.auth}>
-						<LoginForm />
-					</ProtectedRouteLogin>
+				<Route exact path="/users" component={UsersList} />
 
-					<Route path="/basic-ui/buttons" component={Buttons} />
-					<Route path="/basic-ui/dropdowns" component={Dropdowns} />
-					<Route path="/basic-ui/typography" component={Typography} />
+				<ProtectedRouteLogin path="/login" auth={props.state.auth}>
+					<LoginForm />
+				</ProtectedRouteLogin>
 
-					<Route
-						path="/form-Elements/basic-elements"
-						component={BasicElements}
-					/>
+				<Route path="/basic-ui/buttons" component={Buttons} />
+				<Route path="/basic-ui/dropdowns" component={Dropdowns} />
+				<Route path="/basic-ui/typography" component={Typography} />
 
-					<Route path="/tables/basic-table" component={BasicTable} />
+				<Route
+					path="/form-Elements/basic-elements"
+					component={BasicElements}
+				/>
 
-					<Route path="/icons/mdi" component={Mdi} />
+				<Route path="/tables/basic-table" component={BasicTable} />
 
-					<Route path="/charts/chart-js" component={ChartJs} />
+				<Route path="/icons/mdi" component={Mdi} />
 
-					<Route path="/user-pages/login-1" component={Login} />
-					<Route
-						path="/user-pages/register-1"
-						component={Register1}
-					/>
-					<Route
-						path="/user-pages/lockscreen"
-						component={Lockscreen}
-					/>
+				<Route path="/charts/chart-js" component={ChartJs} />
 
-					<Route path="/error-pages/error-404" component={Error404} />
-					<Route path="/error-pages/error-500" component={Error500} />
+				<Route path="/user-pages/login-1" component={Login} />
+				<Route path="/user-pages/register-1" component={Register1} />
+				<Route path="/user-pages/lockscreen" component={Lockscreen} />
 
-					<Route
-						path="/general-pages/blank-page"
-						component={BlankPage}
-					/>
+				<Route path="/error-pages/error-404" component={Error404} />
+				<Route path="/error-pages/error-500" component={Error500} />
 
-					<Redirect to="/dashboard" />
-				</Switch>
-			</Suspense>
-		);
-}
+				<Route path="/general-pages/blank-page" component={BlankPage} />
+
+				<Redirect to="/dashboard" />
+			</Switch>
+		</Suspense>
+	);
+};
 const mapStateToProps = (state) => ({
 	state: state,
 });

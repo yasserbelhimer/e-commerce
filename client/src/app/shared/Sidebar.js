@@ -85,6 +85,12 @@ class Sidebar extends Component {
               <i className="mdi mdi-view-list menu-icon"></i>
             </Link>
           </li>
+          <li className={ this.isPathActive('/products') ? 'nav-item active' : 'nav-item' }>
+            <Link className="nav-link" to="/products">
+              <span className="menu-title"><Trans>Products</Trans></span>
+              <i className="mdi mdi-view-list menu-icon"></i>
+            </Link>
+          </li>
           <li className={ this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item' }>
             <div className={ this.state.basicUiMenuOpen ? 'nav-link menu-expanded' : 'nav-link' } onClick={ () => this.toggleMenuState('basicUiMenuOpen') } data-toggle="collapse">
               <span className="menu-title"><Trans>Basic UI Elements</Trans></span>

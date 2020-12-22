@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Product = require("../models/product");
 
 router.route("/all").get((req, res) => {
-	Product.find()
+	Product.find().populate('category','name')
 		.then((products) => res.json(products))
 		.catch((err) => res.status(400).json("Error: " + err));
 });
@@ -15,7 +15,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/add", (req, res) => {
 	const product = new Product({
-		id_category: req.body.id_category,
+		category: req.body.category,
 		name: req.body.name,
 		quantity: req.body.quantity,
 		price: req.body.price,
@@ -40,7 +40,7 @@ router.route("/:id").delete((req, res) => {
 router.route("/update/:id").post((req, res) => {
 	Product.findById(req.params.id)
 		.then((product) => {
-			product.id_category = req.body.id_category || product.id_category;
+			product.category = req.body.category || product.category;
 			product.name = req.body.name || product.name;
 			product.quantity = req.body.quantity || product.quantity;
 			product.price = req.body.price || product.price;

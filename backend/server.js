@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 app.use("/categories", categoryRoute);
-app.use("/product", productRoute);
+app.use("/products", productRoute);
 app.use("/admin", adminRoutes);
 
 const run = async () => {
